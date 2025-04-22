@@ -9,8 +9,8 @@ COPY package*.json ./
 COPY . .
 
 # Install dependencies and build
-RUN npm install
-RUN npm run build
+RUN yarn install
+RUN yarn run build
 
 # Expose the port Nuxt runs on
 EXPOSE 3000
