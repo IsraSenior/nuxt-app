@@ -2,7 +2,7 @@
 FROM node:18-alpine
 
 # Create app directory
-WORKDIR /app
+WORKDIR /
 
 # Copy package files
 COPY package*.json ./
