@@ -1,19 +1,15 @@
-# Use Node.js LTS
-FROM node:18-alpine
-
-# Create app directory
-WORKDIR /
-
-# Copy package files
+# Stage 1: Build
+FROM node:18-alpine AS builder
+WORKDIR /app
 COPY package*.json ./
+RUN npm install
 COPY . .
+RUN npm run build
 
-# Install dependencies and build
-RUN yarn install
-RUN yarn run build
-
-# Expose the port Nuxt runs on
+# Stage 2: Run
+FROM node:18-alpine
+WORKDIR /app
+COPY --from=builder /app/.output ./
+COPY --from=builder /app/node_modules ./node_modules
 EXPOSE 3000
-
-# Start the application
-CMD ["node", ".output/server/index.mjs"]
+CMD ["node", "./server/index.mjs"]
